@@ -1,0 +1,33 @@
+inherit qt4 ruby
+
+NAME="klayout"
+VERSION=0.22.3
+RELEASE=1
+CATEGORY="Science"
+SUMMARY="Viewer for GDS and OASIS layout files"
+DESCRIPTION="Although a comparatively simple piece of software, a layout viewer
+is not only just a tool for the chip design engineer. Today design's complexity
+require not only a simple viewer. Rather, a viewer is the microscope through
+which the engineer looks at the design. There are numerous viewers available,
+but sadly there are not many which satisfy a few basic requirements. Most of
+them are commercial and expensive. If there is need for a simple, yet powerful
+viewer - here it is."
+HOMEPAGE="http://www.klayout.de/"
+SRC_URI="http://www.klayout.de/klayout-${VERSION}.tar.gz"
+PATCH_URI="0.22.2-cygwin.patch"
+
+# requires buildsystem changes to respect CXXFLAGS
+RESTRICT=debuginfo
+
+src_compile() {
+	lndirs
+	cd ${B}
+	./build.sh -platform linux-32-gcc-release -qt ${QT4_QTDIR} -with-qtbinding -option ${MAKEOPTS%% *}
+}
+
+src_install() {
+	cd ${B}
+	dobin bin.*/*.exe
+	newicon ${S}/src/logo.png klayout.png
+	make_desktop_entry klayout "KLayout" klayout "Science;Electronics"
+}

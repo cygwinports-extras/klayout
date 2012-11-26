@@ -1,0 +1,36 @@
+diff -urpN -x '*.exe' -x build.linux-32-gcc-release klayout-0.22.2-orig/build.sh klayout-0.22.2/build.sh
+--- klayout-0.22.2-orig/build.sh	2012-11-01 15:02:57.000000000 -0500
++++ klayout-0.22.2/build.sh	2012-11-25 22:51:56.221180100 -0600
+@@ -16,23 +16,6 @@ case `uname` in
+ MINGW32*)
+   PLATFORM="win-32-mingw-release"
+   ;;
+-CYGWIN*)
+-  PLATFORM="win-32-mingw-release"
+-  # On cygwin, provide a windows path in SOURCE 
+-  if ( cygpath -m $CURR_DIR >/dev/null 2>/dev/null ); then
+-    WIN_CYGWIN=1
+-    SOURCE=`cygpath -m $CURR_DIR`/src 
+-    if ( gcc -mno-cygwin -MM -MG -x c++ $SOURCE/tlLog.cc -I$SOURCE >/dev/null 2>/dev/null ); then
+-      GCC_MINGW=1
+-    else
+-      echo "*** ERROR: detected cygwin build environment but with a gcc that is a native Windows MinGW compiler"
+-      exit 1
+-    fi
+-  else
+-    echo "*** ERROR: cannot run cygpath"
+-    exit 1
+-  fi
+-  ;;
+ *)
+   # Assume Linux for the remaining variants
+   case `arch` in
+@@ -73,7 +56,7 @@ if [ "$RUBY" != "" ]; then
+   # Get ruby installation files
+   # (Hint: try to use the static library because the shared object does not define rb_vm_top_self
+   # on some Ruby 1.9.x installations)
+-  RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (Config::CONFIG['LIBRUBY_A'] || '')"`
++  RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (Config::CONFIG['LIBRUBY'] || '')"`
+   if [ "$RUBYLIBFILENAME" = "" ]; then
+     RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (Config::CONFIG['LIBRUBY_SO'] || '')"`
+   fi
