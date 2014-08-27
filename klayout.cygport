@@ -1,7 +1,7 @@
 inherit qt4 ruby
 
 NAME="klayout"
-VERSION=0.22.8
+VERSION=0.23.6
 RELEASE=1
 CATEGORY="Science"
 SUMMARY="Viewer for GDS and OASIS layout files"
@@ -14,7 +14,10 @@ them are commercial and expensive. If there is need for a simple, yet powerful
 viewer - here it is."
 HOMEPAGE="http://www.klayout.de/"
 SRC_URI="http://www.klayout.de/downloads/klayout-${VERSION}.tar.gz"
-PATCH_URI="0.22.2-cygwin.patch"
+PATCH_URI="
+	0.22.2-cygwin.patch
+	0.23.6-ruby.patch
+"
 
 # requires buildsystem changes to respect CXXFLAGS
 RESTRICT=debuginfo

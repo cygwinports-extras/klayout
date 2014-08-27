@@ -1,0 +1,20 @@
+--- origsrc/klayout-0.23.6/build.sh	2014-08-26 17:43:12.955481800 -0500
++++ src/klayout-0.23.6/build.sh	2014-08-26 17:47:04.191845100 -0500
+@@ -190,7 +190,7 @@ if [ "$RUBY" != "" ]; then
+ 
+   # Get ruby installation files
+   if [ "$RUBYLIBFILE" = "" ]; then
+-    RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (RbConfig::CONFIG['LIBRUBY_SO'] || '')"`
++    RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (RbConfig::CONFIG['LIBRUBY'] || '')"`
+     if [ "$RUBYLIBFILENAME" = "" ]; then
+       RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (RbConfig::CONFIG['LIBRUBY_A'] || '')"`
+     fi
+@@ -219,7 +219,7 @@ if [ "$RUBY" != "" ]; then
+         RUBYINCLUDE="$RUBYHDRDIR"
+       fi
+       if [ "$RUBYINCLUDE2" = "" ]; then
+-        RUBYINCLUDE2="$RUBYHDRDIR"/`$RUBY -rrbconfig -e "puts (RbConfig::CONFIG['arch'] || '')"`
++        RUBYINCLUDE2=`$RUBY -rrbconfig -e "puts (RbConfig::CONFIG['rubyarchhdrdir'] || '')"`
+       fi
+       echo "    Ruby headers found: $RUBYINCLUDE and $RUBYINCLUDE2"
+     fi

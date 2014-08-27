@@ -24,12 +24,3 @@
  *)
    # Assume Linux for the remaining variants
    case `arch` in
-@@ -73,7 +56,7 @@ if [ "$RUBY" != "" ]; then
-   # Get ruby installation files
-   # (Hint: try to use the static library because the shared object does not define rb_vm_top_self
-   # on some Ruby 1.9.x installations)
--  RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (Config::CONFIG['LIBRUBY_A'] || '')"`
-+  RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (Config::CONFIG['LIBRUBY'] || '')"`
-   if [ "$RUBYLIBFILENAME" = "" ]; then
-     RUBYLIBFILENAME=`$RUBY -rrbconfig -e "puts (Config::CONFIG['LIBRUBY_SO'] || '')"`
-   fi
