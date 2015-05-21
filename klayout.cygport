@@ -1,7 +1,7 @@
 inherit qt4 ruby
 
 NAME="klayout"
-VERSION=0.23.6
+VERSION=0.23.10
 RELEASE=1
 CATEGORY="Science"
 SUMMARY="Viewer for GDS and OASIS layout files"
