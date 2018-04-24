@@ -1,7 +1,7 @@
-inherit qt4 ruby
+inherit qt5-qmake python3 ruby
 
 NAME="klayout"
-VERSION=0.23.10
+VERSION=0.25.2
 RELEASE=1
 CATEGORY="Science"
 SUMMARY="Viewer for GDS and OASIS layout files"
@@ -13,32 +13,20 @@ but sadly there are not many which satisfy a few basic requirements. Most of
 them are commercial and expensive. If there is need for a simple, yet powerful
 viewer - here it is."
 HOMEPAGE="http://www.klayout.de/"
-SRC_URI="http://www.klayout.de/downloads/klayout-${VERSION}.tar.gz"
+SRC_URI="http://www.klayout.de/downloads/source/klayout-${VERSION}.tar.gz"
 PATCH_URI="
-	0.22.2-cygwin.patch
-	0.23.6-ruby.patch
+	0.25.2-cygwin-signal.patch
 "
 
-# requires buildsystem changes to respect CXXFLAGS
-RESTRICT=debuginfo
-
 src_compile() {
-	local platform
-	if defined ARCH_x86_64
-	then
-		platform=linux-64-gcc-release
-	else
-		platform=linux-32-gcc-release
-	fi
-
 	lndirs
 	cd ${B}
-	./build.sh -platform ${platform} -qt ${QT4_QTDIR} -with-qtbinding -option ${MAKEOPTS%% *}
+	./build.sh -expert -without-qtbinding -qt ${QT5_QTDIR} -option ${MAKEOPTS%% *}
 }
 
 src_install() {
 	cd ${B}
-	dobin bin.*/*.exe
-	newicon ${S}/src/logo.png klayout.png
+	dobin bin-release/klayout.exe bin-release/cygklayout*.dll
+	newicon ${S}/etc/logo.png klayout.png
 	make_desktop_entry klayout "KLayout" klayout "Science;Electronics"
 }

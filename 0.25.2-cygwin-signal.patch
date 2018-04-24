@@ -1,0 +1,40 @@
+--- origsrc/klayout-0.25.2/src/lay/lay/laySignalHandler.cc	2018-03-20 12:52:00.000000000 -0500
++++ src/klayout-0.25.2/src/lay/lay/laySignalHandler.cc	2018-04-23 17:59:27.040156500 -0500
+@@ -41,7 +41,9 @@
+ #  endif
+ #else
+ #  include <dlfcn.h>
++#  ifdef __linux__
+ #  include <execinfo.h>
++#  endif
+ #  include <unistd.h>
+ #endif
+ 
+@@ -281,7 +283,9 @@ void signal_handler (int signo, siginfo_
+ 
+   bool can_resume = (signo != SIGILL);
+ 
++#ifdef __linux__
+   size_t nptrs = backtrace (array, sizeof (array) / sizeof (array[0]));
++#endif
+ 
+   std::string text;
+   text += tl::sprintf ("Signal number: %d\n", signo);
+@@ -315,7 +319,7 @@ void signal_handler (int signo, siginfo_
+   }
+   free(symbols);
+ 
+-#else
++#elif defined(__linux__)
+ 
+   //  the more elaborate approach using the addr2line external tool to obtain debug information
+   //  (if available)
+@@ -443,7 +447,7 @@ void install_signal_handlers ()
+   act.sa_sigaction = signal_handler;
+   sigemptyset (&act.sa_mask);
+   act.sa_flags = SA_SIGINFO;
+-#if !defined(__APPLE__)
++#ifdef __linux__
+   act.sa_restorer = 0;
+ #endif
+ 
